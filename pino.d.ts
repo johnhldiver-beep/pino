@@ -21,13 +21,15 @@ import ThreadStream from 'thread-stream'
 import type { WorkerOptions } from 'worker_threads'
 
 declare namespace pino {
-  /// Non-exported types and interfaces
+  /// Types referenced by the public signatures below
+  /// Exported so that wrappers around `LoggerOptions` / `LogFn` can name them
+  /// (see https://github.com/pinojs/pino/issues/2531).
 
-    type TimeFn = () => string
-    type MixinFn<CustomLevels extends string = never> = (mergeObject: object, level: number, logger:Logger<CustomLevels>) => object
-    type MixinMergeStrategyFn = (mergeObject: object, mixinObject: object) => object
+    export type TimeFn = () => string
+    export type MixinFn<CustomLevels extends string = never> = (mergeObject: object, level: number, logger:Logger<CustomLevels>) => object
+    export type MixinMergeStrategyFn = (mergeObject: object, mixinObject: object) => object
 
-    type CustomLevelLogger<CustomLevels extends string, UseOnlyCustomLevels extends boolean = boolean> = {
+    export type CustomLevelLogger<CustomLevels extends string, UseOnlyCustomLevels extends boolean = boolean> = {
       /**
        * Define additional logging levels.
        */
@@ -47,7 +49,7 @@ declare namespace pino {
      * A synchronous callback that will run on each creation of a new child.
      * @param child: The newly created child logger instance.
      */
-    type OnChildCallback<CustomLevels extends string = never> = (child: Logger<CustomLevels>) => void
+    export type OnChildCallback<CustomLevels extends string = never> = (child: Logger<CustomLevels>) => void
 
     export interface redactOptions {
       paths: string[];
@@ -282,7 +284,7 @@ declare namespace pino {
       write(msg: string): void;
     }
 
-    interface DestinationStreamHasMetadata {
+    export interface DestinationStreamHasMetadata {
       [symbols.needsMetadataGsym]: true;
       lastLevel: number;
       lastTime: string;
@@ -320,8 +322,8 @@ declare namespace pino {
       labels: { [level: number]: string };
     }
 
-    type PlaceholderSpecifier = 'd' | 's' | 'j' | 'o' | 'O'
-    type PlaceholderTypeMapping<T extends PlaceholderSpecifier> = T extends 'd'
+    export type PlaceholderSpecifier = 'd' | 's' | 'j' | 'o' | 'O'
+    export type PlaceholderTypeMapping<T extends PlaceholderSpecifier> = T extends 'd'
       ? number
       : T extends 's'
         ? unknown
@@ -329,7 +331,7 @@ declare namespace pino {
           ? {} | null
           : never
 
-    type ParseLogFnArgs<
+    export type ParseLogFnArgs<
         T,
         Acc extends unknown[] = []
     > = T extends `${infer _}%${infer Placeholder}${infer Rest}`
